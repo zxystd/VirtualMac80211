@@ -1,0 +1,353 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F83F8FE024A8A0CE00E5E881 /* VirtualMac80211.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FDF24A8A0CE00E5E881 /* VirtualMac80211.hpp */; };
+		F83F8FE224A8A0CE00E5E881 /* VirtualMac80211.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83F8FE124A8A0CE00E5E881 /* VirtualMac80211.cpp */; };
+		F83F8FEA24A8A57A00E5E881 /* IO80211Interface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FE924A8A57A00E5E881 /* IO80211Interface.hpp */; };
+		F83F8FEC24A8A57F00E5E881 /* IO80211Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83F8FEB24A8A57F00E5E881 /* IO80211Interface.cpp */; };
+		F83F8FEE24A8A59500E5E881 /* IO80211Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83F8FED24A8A59500E5E881 /* IO80211Controller.cpp */; };
+		F83F8FF024A8A59900E5E881 /* IO80211Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FEF24A8A59900E5E881 /* IO80211Controller.hpp */; };
+		F83F8FFA24A8A7D500E5E881 /* IONetworkInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF624A8A7D500E5E881 /* IONetworkInterface.h */; };
+		F83F8FFB24A8A7D500E5E881 /* IOEthernetController.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF724A8A7D500E5E881 /* IOEthernetController.h */; };
+		F83F8FFC24A8A7D500E5E881 /* IOEthernetInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */; };
+		F83F8FFD24A8A7D500E5E881 /* IONetworkController.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF924A8A7D500E5E881 /* IONetworkController.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F83F8FDC24A8A0CE00E5E881 /* VirtualMac80211.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VirtualMac80211.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		F83F8FDF24A8A0CE00E5E881 /* VirtualMac80211.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VirtualMac80211.hpp; sourceTree = "<group>"; };
+		F83F8FE124A8A0CE00E5E881 /* VirtualMac80211.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualMac80211.cpp; sourceTree = "<group>"; };
+		F83F8FE324A8A0CE00E5E881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F83F8FE924A8A57A00E5E881 /* IO80211Interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IO80211Interface.hpp; sourceTree = "<group>"; };
+		F83F8FEB24A8A57F00E5E881 /* IO80211Interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO80211Interface.cpp; sourceTree = "<group>"; };
+		F83F8FED24A8A59500E5E881 /* IO80211Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO80211Controller.cpp; sourceTree = "<group>"; };
+		F83F8FEF24A8A59900E5E881 /* IO80211Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IO80211Controller.hpp; sourceTree = "<group>"; };
+		F83F8FF624A8A7D500E5E881 /* IONetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IONetworkInterface.h; sourceTree = "<group>"; };
+		F83F8FF724A8A7D500E5E881 /* IOEthernetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOEthernetController.h; sourceTree = "<group>"; };
+		F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOEthernetInterface.h; sourceTree = "<group>"; };
+		F83F8FF924A8A7D500E5E881 /* IONetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IONetworkController.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F83F8FD924A8A0CE00E5E881 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F83F8FD224A8A0CD00E5E881 = {
+			isa = PBXGroup;
+			children = (
+				F83F8FDE24A8A0CE00E5E881 /* VirtualMac80211 */,
+				F83F8FDD24A8A0CE00E5E881 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F83F8FDD24A8A0CE00E5E881 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F83F8FDC24A8A0CE00E5E881 /* VirtualMac80211.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F83F8FDE24A8A0CE00E5E881 /* VirtualMac80211 */ = {
+			isa = PBXGroup;
+			children = (
+				F83F8FF524A8A6FB00E5E881 /* apple */,
+				F83F8FDF24A8A0CE00E5E881 /* VirtualMac80211.hpp */,
+				F83F8FE124A8A0CE00E5E881 /* VirtualMac80211.cpp */,
+				F83F8FE924A8A57A00E5E881 /* IO80211Interface.hpp */,
+				F83F8FEB24A8A57F00E5E881 /* IO80211Interface.cpp */,
+				F83F8FED24A8A59500E5E881 /* IO80211Controller.cpp */,
+				F83F8FEF24A8A59900E5E881 /* IO80211Controller.hpp */,
+				F83F8FE324A8A0CE00E5E881 /* Info.plist */,
+			);
+			path = VirtualMac80211;
+			sourceTree = "<group>";
+		};
+		F83F8FF524A8A6FB00E5E881 /* apple */ = {
+			isa = PBXGroup;
+			children = (
+				F83F8FF724A8A7D500E5E881 /* IOEthernetController.h */,
+				F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */,
+				F83F8FF924A8A7D500E5E881 /* IONetworkController.h */,
+				F83F8FF624A8A7D500E5E881 /* IONetworkInterface.h */,
+			);
+			path = apple;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F83F8FD724A8A0CE00E5E881 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F83F8FE024A8A0CE00E5E881 /* VirtualMac80211.hpp in Headers */,
+				F83F8FFA24A8A7D500E5E881 /* IONetworkInterface.h in Headers */,
+				F83F8FF024A8A59900E5E881 /* IO80211Controller.hpp in Headers */,
+				F83F8FFC24A8A7D500E5E881 /* IOEthernetInterface.h in Headers */,
+				F83F8FFB24A8A7D500E5E881 /* IOEthernetController.h in Headers */,
+				F83F8FFD24A8A7D500E5E881 /* IONetworkController.h in Headers */,
+				F83F8FEA24A8A57A00E5E881 /* IO80211Interface.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F83F8FDB24A8A0CE00E5E881 /* VirtualMac80211 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F83F8FE624A8A0CE00E5E881 /* Build configuration list for PBXNativeTarget "VirtualMac80211" */;
+			buildPhases = (
+				F83F8FD724A8A0CE00E5E881 /* Headers */,
+				F83F8FD824A8A0CE00E5E881 /* Sources */,
+				F83F8FD924A8A0CE00E5E881 /* Frameworks */,
+				F83F8FDA24A8A0CE00E5E881 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VirtualMac80211;
+			productName = VirtualMac80211;
+			productReference = F83F8FDC24A8A0CE00E5E881 /* VirtualMac80211.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F83F8FD324A8A0CD00E5E881 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = zxystd;
+				TargetAttributes = {
+					F83F8FDB24A8A0CE00E5E881 = {
+						CreatedOnToolsVersion = 11.1;
+					};
+				};
+			};
+			buildConfigurationList = F83F8FD624A8A0CD00E5E881 /* Build configuration list for PBXProject "VirtualMac80211" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F83F8FD224A8A0CD00E5E881;
+			productRefGroup = F83F8FDD24A8A0CE00E5E881 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F83F8FDB24A8A0CE00E5E881 /* VirtualMac80211 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F83F8FDA24A8A0CE00E5E881 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F83F8FD824A8A0CE00E5E881 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F83F8FEC24A8A57F00E5E881 /* IO80211Interface.cpp in Sources */,
+				F83F8FEE24A8A59500E5E881 /* IO80211Controller.cpp in Sources */,
+				F83F8FE224A8A0CE00E5E881 /* VirtualMac80211.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F83F8FE424A8A0CE00E5E881 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F83F8FE524A8A0CE00E5E881 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F83F8FE724A8A0CE00E5E881 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VirtualMac80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULE_NAME = com.zxystd.VirtualMac80211;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxystd.VirtualMac80211;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		F83F8FE824A8A0CE00E5E881 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VirtualMac80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULE_NAME = com.zxystd.VirtualMac80211;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxystd.VirtualMac80211;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F83F8FD624A8A0CD00E5E881 /* Build configuration list for PBXProject "VirtualMac80211" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F83F8FE424A8A0CE00E5E881 /* Debug */,
+				F83F8FE524A8A0CE00E5E881 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F83F8FE624A8A0CE00E5E881 /* Build configuration list for PBXNativeTarget "VirtualMac80211" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F83F8FE724A8A0CE00E5E881 /* Debug */,
+				F83F8FE824A8A0CE00E5E881 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F83F8FD324A8A0CD00E5E881 /* Project object */;
+}
