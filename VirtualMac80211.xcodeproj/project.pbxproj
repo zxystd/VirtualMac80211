@@ -17,6 +17,9 @@
 		F83F8FFB24A8A7D500E5E881 /* IOEthernetController.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF724A8A7D500E5E881 /* IOEthernetController.h */; };
 		F83F8FFC24A8A7D500E5E881 /* IOEthernetInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */; };
 		F83F8FFD24A8A7D500E5E881 /* IONetworkController.h in Headers */ = {isa = PBXBuildFile; fileRef = F83F8FF924A8A7D500E5E881 /* IONetworkController.h */; };
+		F8DC0C3924A8DC1F005AB7A5 /* apple80211_ioctl.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC0C3824A8DC1F005AB7A5 /* apple80211_ioctl.h */; };
+		F8DC0C3B24A8DCD8005AB7A5 /* apple80211_var.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC0C3A24A8DCD8005AB7A5 /* apple80211_var.h */; };
+		F8DC0C3D24A8E66C005AB7A5 /* AirportIOCTL.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC0C3C24A8E66C005AB7A5 /* AirportIOCTL.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		F83F8FF724A8A7D500E5E881 /* IOEthernetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOEthernetController.h; sourceTree = "<group>"; };
 		F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOEthernetInterface.h; sourceTree = "<group>"; };
 		F83F8FF924A8A7D500E5E881 /* IONetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IONetworkController.h; sourceTree = "<group>"; };
+		F8DC0C3824A8DC1F005AB7A5 /* apple80211_ioctl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apple80211_ioctl.h; sourceTree = "<group>"; };
+		F8DC0C3A24A8DCD8005AB7A5 /* apple80211_var.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apple80211_var.h; sourceTree = "<group>"; };
+		F8DC0C3C24A8E66C005AB7A5 /* AirportIOCTL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AirportIOCTL.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +77,7 @@
 				F83F8FEB24A8A57F00E5E881 /* IO80211Interface.cpp */,
 				F83F8FED24A8A59500E5E881 /* IO80211Controller.cpp */,
 				F83F8FEF24A8A59900E5E881 /* IO80211Controller.hpp */,
+				F8DC0C3C24A8E66C005AB7A5 /* AirportIOCTL.h */,
 				F83F8FE324A8A0CE00E5E881 /* Info.plist */,
 			);
 			path = VirtualMac80211;
@@ -83,6 +90,8 @@
 				F83F8FF824A8A7D500E5E881 /* IOEthernetInterface.h */,
 				F83F8FF924A8A7D500E5E881 /* IONetworkController.h */,
 				F83F8FF624A8A7D500E5E881 /* IONetworkInterface.h */,
+				F8DC0C3824A8DC1F005AB7A5 /* apple80211_ioctl.h */,
+				F8DC0C3A24A8DCD8005AB7A5 /* apple80211_var.h */,
 			);
 			path = apple;
 			sourceTree = "<group>";
@@ -94,6 +103,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DC0C3924A8DC1F005AB7A5 /* apple80211_ioctl.h in Headers */,
+				F8DC0C3B24A8DCD8005AB7A5 /* apple80211_var.h in Headers */,
+				F8DC0C3D24A8E66C005AB7A5 /* AirportIOCTL.h in Headers */,
 				F83F8FE024A8A0CE00E5E881 /* VirtualMac80211.hpp in Headers */,
 				F83F8FFA24A8A7D500E5E881 /* IONetworkInterface.h in Headers */,
 				F83F8FF024A8A59900E5E881 /* IO80211Controller.hpp in Headers */,

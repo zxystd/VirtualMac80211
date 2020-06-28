@@ -4,23 +4,9 @@
 #define ItlNetworkInterface_hpp
 
 #include "IOEthernetInterface.h"
+#include "apple/apple80211_ioctl.h"
 
 typedef int apple80211_postMessage_tlv_types;
-
-#define IOCTL_GET 3224398281LL
-#define IOCTL_SET 2150656456LL
-
-#define IFNAMSIZ 16
-
-struct apple80211req
-{
-    char        req_if_name[IFNAMSIZ];    // 16 bytes
-    int            req_type;                // 4 bytes
-    int            req_val;                // 4 bytes
-    u_int32_t    req_len;                // 4 bytes
-    void       *req_data;                // 4 bytes
-    char dd[256];
-};
 
 class IO80211Interface : public IOEthernetInterface
 {
