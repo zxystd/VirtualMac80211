@@ -24,6 +24,9 @@ public:
     IOReturn setMulticastList(IOEthernetAddress* addr, UInt32 len) override;
     bool configureInterface(IONetworkInterface *netif) override;
     virtual IONetworkInterface * createInterface() override;
+    virtual const OSString* newVendorString() const override;
+    virtual const OSString* newModelString() const override;
+    virtual const OSString* newRevisionString() const override;
     
     bool setupUserClient();
     bool createMediumTables(const IONetworkMedium **primary);

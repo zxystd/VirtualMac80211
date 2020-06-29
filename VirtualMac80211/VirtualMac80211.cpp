@@ -384,3 +384,15 @@ IOReturn VirtualMac80211::getINT_MIT(
     imd->int_mit = APPLE80211_INT_MIT_AUTO;
     return kIOReturnSuccess;
 }
+
+const OSString* VirtualMac80211::newVendorString() const {
+    return OSString::withCString("Apple");
+}
+
+const OSString* VirtualMac80211::newModelString() const {
+    return OSString::withCString("Intel Wiress Card");
+}
+
+const OSString* VirtualMac80211::newRevisionString() const {
+    return OSString::withCString("1.0.0d");
+}

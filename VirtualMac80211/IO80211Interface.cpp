@@ -12,7 +12,7 @@ bool IO80211Interface::init(IONetworkController *controller)
     IOLog("%s\n", __FUNCTION__);
     if ( super::init(controller) == false )
         return false;
-//    setInterfaceSubType(3);
+    setInterfaceSubType(3);
     return true;
 }
 
@@ -152,7 +152,7 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
             ret = sGetChannel(this, req);
             break;
         case 4://powersave
-            ret = sGetPOWER(this, req);
+            ret = sGetPowerSave(this, req);
             break;
         case 5://protmode
             ret = sGetProtMode(this, req);
