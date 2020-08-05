@@ -62,7 +62,7 @@ struct apple80211_cipher_key
 struct apple80211_capability_data
 {
     u_int32_t    version;
-    u_int8_t    capabilities[7];
+    u_int8_t    capabilities[11];
 } __packed;
 
 struct apple80211_state_data

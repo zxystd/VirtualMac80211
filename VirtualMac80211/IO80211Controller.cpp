@@ -12,7 +12,13 @@ IOReturn sGetPOWER(IONetworkInterface *inf, struct apple80211req *data)
         return kIOReturnError;
     }
     ret = ctl->getPOWER(OSDynamicCast(IO80211Interface, inf), &pd);
-    copyout(&pd, (user_addr_t)data->req_data, data->req_len);
+    if (!ret) {
+        size_t len = sizeof(struct apple80211_power_data);
+        if (data->req_len < sizeof(struct apple80211_power_data)) {
+            len = data->req_len;
+        }
+        copyout(&pd, (user_addr_t)data->req_data, len);
+    }
     return ret;
 }
 
@@ -51,7 +57,13 @@ IOReturn sGetCardCapa(IONetworkInterface *inf, struct apple80211req *data)
         return kIOReturnError;
     }
     ret = ctl->getCARD_CAPABILITIES(OSDynamicCast(IO80211Interface, inf), &pd);
-    copyout(&pd, (user_addr_t)data->req_data, data->req_len);
+    if (!ret) {
+        size_t len = sizeof(struct apple80211_capability_data) - sizeof(uint32_t);
+        if (data->req_len < sizeof(struct apple80211_capability_data) - sizeof(uint32_t)) {
+            len = data->req_len;
+        }
+        copyout(((char *)&pd) + 4, (user_addr_t)data->req_data, len);
+    }
     return ret;
 }
 
@@ -250,7 +262,7 @@ IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
     if (!ctl) {
         return kIOReturnError;
     }
-    copyin((user_addr_t)data->req_data, &pd, data->req_len);
+    copyin((user_addr_t)data->req_data, &pd, sizeof(struct apple80211_power_data));
     ret = ctl->setPOWER(OSDynamicCast(IO80211Interface, inf), &pd);
     return ret;
 }
