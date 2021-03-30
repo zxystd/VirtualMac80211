@@ -60,7 +60,7 @@ bool VirtualMac80211::createMediumTables(const IONetworkMedium **primary)
         return false;
     }
     
-    medium = IONetworkMedium::medium(kIOMediumEthernet1000BaseT | kIOMediumOptionFullDuplex | kIOMediumOptionFlowControl, 1000 * 1000000);
+    medium = IONetworkMedium::medium(0x80, 11000000);
     IONetworkMedium::addMedium(mediumDict, medium);
     medium->release();
     if (primary) {
@@ -71,7 +71,7 @@ bool VirtualMac80211::createMediumTables(const IONetworkMedium **primary)
     if (!result) {
         IOLog("Cannot publish medium dictionary!\n");
     }
-    
+
     mediumDict->release();
     return result;
 }
@@ -382,6 +382,50 @@ IOReturn VirtualMac80211::getINT_MIT(
 {
     imd->version = APPLE80211_VERSION;
     imd->int_mit = APPLE80211_INT_MIT_AUTO;
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+getSUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad)
+{
+    ad->version = APPLE80211_VERSION;
+    ad->num_channels = 0;
+    for (int i = 0; i < 14; i++) {
+            ad->supported_channels[ad->num_channels++].channel = (i + 1);
+            ad->supported_channels[ad->num_channels].flags = APPLE80211_C_FLAG_2GHZ;
+    }
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+getHW_SUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad)
+{
+    ad->version = APPLE80211_VERSION;
+    ad->num_channels = 0;
+    for (int i = 0; i < 14; i++) {
+            ad->supported_channels[ad->num_channels++].channel = (i + 1);
+            ad->supported_channels[ad->num_channels].flags = APPLE80211_C_FLAG_2GHZ;
+    }
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+getDRIVER_VERSION(IO80211Interface *interface,
+                                  struct apple80211_version_data *hv)
+{
+    hv->version = APPLE80211_VERSION;
+    snprintf(hv->string, sizeof(hv->string), "RTL008: %s fw: %s", "1.0.0", "RTL");
+    hv->string_len = strlen(hv->string);
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+getHARDWARE_VERSION(IO80211Interface *interface,
+                                    struct apple80211_version_data *hv)
+{
+    hv->version = APPLE80211_VERSION;
+    strncpy(hv->string, "RTL", sizeof(hv->string));
+    hv->string_len = strlen("RTL");
     return kIOReturnSuccess;
 }
 

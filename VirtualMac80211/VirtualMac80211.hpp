@@ -69,6 +69,16 @@ public:
     
     virtual IOReturn getINT_MIT(IO80211Interface *interface, struct apple80211_intmit_data *imd) override;
     
+    virtual IOReturn getSUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad) override;
+    
+    virtual IOReturn getHW_SUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad) override;
+    
+    virtual IOReturn getDRIVER_VERSION(IO80211Interface *interface,
+                                         struct apple80211_version_data *hv) override;
+    
+    virtual IOReturn getHARDWARE_VERSION(IO80211Interface *interface,
+                                         struct apple80211_version_data *hv) override;
+    
 public:
     uint8_t power_state;
     bool isAssociating;

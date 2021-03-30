@@ -250,9 +250,47 @@ IOReturn sGetIntMit(IONetworkInterface *inf, struct apple80211req *data)
 }
 
 
+IOReturn sGetSupportedChannels(IONetworkInterface *inf, struct apple80211req *data)
+{
+    IOReturn ret;
+    struct apple80211_sup_channel_data pd;
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    ret = ctl->getSUPPORTED_CHANNELS(OSDynamicCast(IO80211Interface, inf), &pd);
+    data->req_len = min(data->req_len, sizeof(struct apple80211_sup_channel_data));
+    copyout(&pd, (user_addr_t)data->req_data, data->req_len);
+    return ret;
+}
 
+IOReturn sGetHWSupportedChannels(IONetworkInterface *inf, struct apple80211req *data)
+{
+    IOReturn ret;
+    struct apple80211_sup_channel_data pd;
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    ret = ctl->getHW_SUPPORTED_CHANNELS(OSDynamicCast(IO80211Interface, inf), &pd);
+    data->req_len = min(data->req_len, sizeof(struct apple80211_sup_channel_data));
+    copyout(&pd, (user_addr_t)data->req_data, data->req_len);
+    return ret;
+}
 
-
+IOReturn sGetVersion(IONetworkInterface *inf, struct apple80211req *data) 
+{
+    IOReturn ret;
+    struct apple80211_version_data pd;
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    ret = ctl->getDRIVER_VERSION(OSDynamicCast(IO80211Interface, inf), &pd);
+    data->req_len = min(pd.string_len, sizeof(struct apple80211_version_data));
+    copyout((uint8_t *)&pd + 6, (user_addr_t)data->req_data, data->req_len);
+    return ret;
+}
 
 IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
 {
@@ -264,5 +302,19 @@ IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
     }
     copyin((user_addr_t)data->req_data, &pd, sizeof(struct apple80211_power_data));
     ret = ctl->setPOWER(OSDynamicCast(IO80211Interface, inf), &pd);
+    return ret;
+}
+
+IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data)
+{
+    IOReturn ret;
+    struct apple80211_scan_data sd;
+    
+    
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    copyin((user_addr_t)data->req_data, &sd, min(sizeof(struct apple80211_scan_data), data->req_len));
     return ret;
 }

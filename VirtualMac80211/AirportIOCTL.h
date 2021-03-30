@@ -51,9 +51,15 @@ IOReturn sGetProtMode(IONetworkInterface *inf, struct apple80211req *data);
 
 IOReturn sGetIntMit(IONetworkInterface *inf, struct apple80211req *data);
 
+IOReturn sGetSupportedChannels(IONetworkInterface *inf, struct apple80211req *data);
 
+IOReturn sGetHWSupportedChannels(IONetworkInterface *inf, struct apple80211req *data);
+
+IOReturn sGetVersion(IONetworkInterface *inf, struct apple80211req *data);
 
 
 IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data);
+
+IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data);
 
 #endif /* AirportIOCTL_h */

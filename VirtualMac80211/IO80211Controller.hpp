@@ -125,6 +125,24 @@ public:
     virtual IOReturn getPOWERSAVE(IO80211Interface* interface, struct apple80211_powersave_data *pd) {
         return kIOReturnError;
     }
+    
+    virtual IOReturn getSUPPORTED_CHANNELS(IO80211Interface* interface, struct apple80211_sup_channel_data *pd) {
+        return kIOReturnError;
+    }
+    
+    virtual IOReturn getHW_SUPPORTED_CHANNELS(IO80211Interface* interface, struct apple80211_sup_channel_data *pd) {
+        return kIOReturnError;
+    }
+    
+    virtual IOReturn getDRIVER_VERSION(IO80211Interface *interface,
+                                         struct apple80211_version_data *hv) {
+        return kIOReturnError;
+    }
+    
+    virtual IOReturn getHARDWARE_VERSION(IO80211Interface *interface,
+                                         struct apple80211_version_data *hv) {
+        return kIOReturnError;
+    }
 };
 
 #endif /* IO80211Controller_hpp */

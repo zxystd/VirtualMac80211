@@ -193,9 +193,15 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
         case 18://power
             ret = sGetPOWER(this, req);
             break;
-//        case 21://association result
+//        case 20://association result
 //
 //            break;
+        case 26://supported channels
+            ret = sGetSupportedChannels(this, req);
+            break;
+        case 42:
+            ret = sGetVersion(this, req);
+            break;
         case 50://country code
             ret = sGetCountryCode(this, req);
             break;
@@ -207,6 +213,9 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
             break;
         case 215://roam profile
             
+            break;
+        case 253:
+            ret = sGetHWSupportedChannels(this, req);
             break;
         case 352:
             ret = 6;
@@ -231,6 +240,9 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
     switch (index) {
         case 0:
             
+            break;
+        case 9: //scan req
+            ret = sSetScanRequest(this, req);
             break;
         case 18://power
             ret = sSetPOWER(this, req);
