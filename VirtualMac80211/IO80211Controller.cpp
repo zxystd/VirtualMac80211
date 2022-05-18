@@ -302,6 +302,7 @@ IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
     }
     copyin((user_addr_t)data->req_data, &pd, sizeof(struct apple80211_power_data));
     ret = ctl->setPOWER(OSDynamicCast(IO80211Interface, inf), &pd);
+    OSDynamicCast(IO80211Interface, inf)->postMessage(APPLE80211_M_POWER_CHANGED);
     return ret;
 }
 
