@@ -2,6 +2,9 @@
 
 #include "IO80211Interface.hpp"
 #include <sys/errno.h>
+extern "C" {
+#include <sys/kern_event.h>
+}
 #include "AirportIOCTL.h"
 
 #define super IOEthernetInterface
@@ -132,6 +135,44 @@ int IO80211Interface::apple80211_ioctl(IO80211Interface *netif, UInt64 method, a
     }
 }
 
+extern "C" {
+/*
+ * Internal version of kev_msg_post. Allows posting Apple vendor code kernel
+ * events.
+ */
+int     kev_post_msg(struct kev_msg *event);
+}
+
+int IO80211InterfacePostMessage(const char *bsdName, unsigned int code, void *data, unsigned int len)
+{
+    struct kev_msg kmsg = {0};
+    kmsg.vendor_code = KEV_VENDOR_APPLE;
+    kmsg.kev_class = KEV_IEEE80211_CLASS;
+    kmsg.kev_subclass = KEV_NETWORK_CLASS;
+    kmsg.event_code = code;
+    kmsg.dv[0].data_length = 16;
+    kmsg.dv[0].data_ptr = (void *)bsdName;
+    if (len) {
+        kmsg.dv[1].data_ptr = data;
+        kmsg.dv[1].data_length = len;
+    }
+    
+    return kev_post_msg(&kmsg);
+}
+
+const char *IO80211Interface::getBSDName()
+{
+    if (bsdName[0] == 0) {
+        snprintf(bsdName, 16, "%s%u", ifnet_name(getIfnet()), ifnet_unit(getIfnet()));
+    }
+    return bsdName;
+}
+
+void IO80211Interface::postMessage(unsigned int code, void *data, uint32_t dataLen)
+{
+    IO80211InterfacePostMessage(getBSDName(), code, data, dataLen);
+}
+
 int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211req *req)
 {
     int ret;
@@ -211,8 +252,11 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
         case 95://vir if role
             ret = 6;
             break;
+        case 194://ROAMING
+            ret = kIOReturnError;
+            break;
         case 215://roam profile
-            
+            ret = kIOReturnError;
             break;
         case 253:
             ret = sGetHWSupportedChannels(this, req);
@@ -246,6 +290,9 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
             break;
         case 18://power
             ret = sSetPOWER(this, req);
+            break;
+        case 89://setScanCacheClear
+            ret = sSetScanCacheClear(this, req);
             break;
         case 215://roam profile
             ret = kIOReturnSuccess;

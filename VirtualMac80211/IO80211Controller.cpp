@@ -315,5 +315,14 @@ IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data)
         return kIOReturnError;
     }
     copyin((user_addr_t)data->req_data, &sd, min(sizeof(struct apple80211_scan_data), data->req_len));
-    return ret;
+    return ctl->setSCAN_REQ(OSDynamicCast(IO80211Interface, inf), &sd);
+}
+
+IOReturn sSetScanCacheClear(IONetworkInterface *inf, struct apple80211req *data)
+{
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    return ctl->setSCANCACHE_CLEAR(OSDynamicCast(IO80211Interface, inf));
 }

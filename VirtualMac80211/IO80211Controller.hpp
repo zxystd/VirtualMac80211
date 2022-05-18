@@ -48,6 +48,10 @@ public:
         return kIOReturnError;
     }
     
+    virtual IOReturn setSCANCACHE_CLEAR(IO80211Interface *interface) {
+        return kIOReturnSuccess;
+    }
+    
     virtual IOReturn setSCAN_REQ(IO80211Interface* interface,
                                  struct apple80211_scan_data* sd) {
         return kIOReturnError;

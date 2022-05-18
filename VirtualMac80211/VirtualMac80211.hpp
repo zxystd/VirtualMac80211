@@ -80,6 +80,9 @@ public:
     
     virtual IOReturn getHARDWARE_VERSION(IO80211Interface *interface,
                                          struct apple80211_version_data *hv) override;
+    static void fakeScanDone(OSObject *owner, IOTimerEventSource *sender);
+    virtual IOReturn setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd) override;
+    virtual IOReturn setSCANCACHE_CLEAR(IO80211Interface *interface) override;
     
 public:
     uint8_t power_state;
@@ -88,7 +91,10 @@ public:
     bool scanEnd;
 
 protected:
-    IOEthernetInterface *fNetIf;
+    IO80211Interface *fNetIf;
     IONetworkStats *fpNetStats;
+    
+private:
+    IOTimerEventSource *scanSource;
     
 };

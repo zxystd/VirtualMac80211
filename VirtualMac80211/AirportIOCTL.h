@@ -62,4 +62,6 @@ IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data);
 
 IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data);
 
+IOReturn sSetScanCacheClear(IONetworkInterface *inf, struct apple80211req *data);
+
 #endif /* AirportIOCTL_h */

@@ -2,6 +2,8 @@
 #include "VirtualMac80211.hpp"
 #include <sys/kpi_mbuf.h>
 
+#include <IOKit/IOTimerEventSource.h>
+
 #define super IO80211Controller
 OSDefineMetaClassAndStructors(VirtualMac80211, IO80211Controller)
 
@@ -44,8 +46,16 @@ bool VirtualMac80211::start(IOService *provider) {
         releaseAll();
         return false;
     }
+    scanSource = IOTimerEventSource::timerEventSource(this, &fakeScanDone);
+    getWorkLoop()->addEventSource(scanSource);
     registerService();
     return true;
+}
+
+void VirtualMac80211::fakeScanDone(OSObject *owner, IOTimerEventSource *sender)
+{
+    VirtualMac80211 *that = (VirtualMac80211 *)owner;
+    that->fNetIf->postMessage(APPLE80211_M_SCAN_DONE);
 }
 
 void VirtualMac80211::stop(IOService *provider) {
@@ -125,12 +135,14 @@ IONetworkInterface * VirtualMac80211::createInterface()
 IOReturn VirtualMac80211::disable(IONetworkInterface *netif)
 {
     super::disable(netif);
+    scanSource->disable();
     return kIOReturnSuccess;
 }
 
 IOReturn VirtualMac80211::enable(IONetworkInterface *netif)
 {
     super::enable(netif);
+    scanSource->enable();
     return kIOReturnSuccess;
 }
 
@@ -421,6 +433,23 @@ getDRIVER_VERSION(IO80211Interface *interface,
     hv->version = APPLE80211_VERSION;
     snprintf(hv->string, sizeof(hv->string), "RTL008: %s fw: %s", "1.0.0", "RTL");
     hv->string_len = strlen(hv->string);
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+setSCANCACHE_CLEAR(IO80211Interface *interface)
+{
+    VMLog("%s\n", __FUNCTION__);
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd)
+{
+    if (interface && scanSource) {
+        scanSource->setTimeoutMS(200);
+        scanSource->enable();
+    }
     return kIOReturnSuccess;
 }
 
