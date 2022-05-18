@@ -288,7 +288,7 @@ IOReturn sGetVersion(IONetworkInterface *inf, struct apple80211req *data)
     }
     ret = ctl->getDRIVER_VERSION(OSDynamicCast(IO80211Interface, inf), &pd);
     data->req_len = min(pd.string_len, sizeof(struct apple80211_version_data));
-    copyout((uint8_t *)&pd + 6, (user_addr_t)data->req_data, data->req_len);
+    copyout((uint8_t *)&pd + offsetof(struct apple80211_version_data, string), (user_addr_t)data->req_data, min(pd.string_len, sizeof(pd.string)));
     return ret;
 }
 
@@ -307,7 +307,6 @@ IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
 
 IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data)
 {
-    IOReturn ret;
     struct apple80211_scan_data sd;
     
     
