@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleGetInfoString</key>
+	<string>12.0, Copyright © 2005-2016 Apple Inc. All rights reserved.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -15,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>IOKitPersonalities</key>
@@ -23,7 +25,7 @@
 		<key>VirtualMac80211</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>com.zxystd.VirtualMac80211</string>
+			<string>com.apple.iokit.VirtualMac80211</string>
 			<key>IOClass</key>
 			<string>VirtualMac80211</string>
 			<key>IOMatchCategory</key>
@@ -38,7 +40,7 @@
 		<key>VirtualMac80211_USB</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>com.zxystd.VirtualMac80211</string>
+			<string>com.apple.iokit.VirtualMac80211</string>
 			<key>IOClass</key>
 			<string>VirtualMac80211</string>
 			<key>IOMatchCategory</key>
@@ -66,6 +68,10 @@
 		<key>com.apple.kpi.libkern</key>
 		<string>16.7</string>
 		<key>com.apple.kpi.mach</key>
+		<string>16.7</string>
+		<key>com.apple.kpi.private</key>
+		<string>16.7</string>
+		<key>com.apple.kpi.unsupported</key>
 		<string>16.7</string>
 	</dict>
 </dict>
