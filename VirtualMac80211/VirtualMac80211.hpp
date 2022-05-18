@@ -82,7 +82,9 @@ public:
                                          struct apple80211_version_data *hv) override;
     static void fakeScanDone(OSObject *owner, IOTimerEventSource *sender);
     virtual IOReturn setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd) override;
+    virtual IOReturn setSCAN_REQ_MULTIPLE(IO80211Interface *interface, struct apple80211_scan_multiple_data *sd) override;
     virtual IOReturn setSCANCACHE_CLEAR(IO80211Interface *interface) override;
+    virtual IOReturn getSCAN_RESULT(IO80211Interface *interface, apple80211_scan_result **sr) override;
     
 public:
     uint8_t power_state;
@@ -96,5 +98,5 @@ protected:
     
 private:
     IOTimerEventSource *scanSource;
-    
+    bool waitingForScanResult;
 };

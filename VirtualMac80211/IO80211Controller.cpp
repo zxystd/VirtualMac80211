@@ -292,6 +292,21 @@ IOReturn sGetVersion(IONetworkInterface *inf, struct apple80211req *data)
     return ret;
 }
 
+IOReturn sGetScanResult(IONetworkInterface *inf, struct apple80211req *data)
+{
+    IOReturn ret;
+    struct apple80211_scan_result *sr;
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    ret = ctl->getSCAN_RESULT(OSDynamicCast(IO80211Interface, inf), &sr);
+    if (sr == NULL) {
+        return kIOReturnError;
+    }
+    return ret;
+}
+
 IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data)
 {
     IOReturn ret;
@@ -310,13 +325,30 @@ IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data)
 {
     struct apple80211_scan_data sd;
     
+    IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
+    if (!ctl) {
+        return kIOReturnError;
+    }
+    bzero(&sd, sizeof(sd));
+    if (copyin((user_addr_t)data->req_data, &sd, sizeof(struct apple80211_scan_data))) {
+        return kIOReturnError;
+    };
+    return ctl->setSCAN_REQ(OSDynamicCast(IO80211Interface, inf), &sd);
+}
+
+IOReturn sSetScanRequestMultiple(IONetworkInterface *inf, struct apple80211req *data)
+{
+    struct apple80211_scan_multiple_data sd;
     
     IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
     if (!ctl) {
         return kIOReturnError;
     }
-    copyin((user_addr_t)data->req_data, &sd, min(sizeof(struct apple80211_scan_data), data->req_len));
-    return ctl->setSCAN_REQ(OSDynamicCast(IO80211Interface, inf), &sd);
+    bzero(&sd, sizeof(sd));
+    if (copyin((user_addr_t)data->req_data, &sd, sizeof(struct apple80211_scan_multiple_data))) {
+        return kIOReturnError;
+    };
+    return ctl->setSCAN_REQ_MULTIPLE(OSDynamicCast(IO80211Interface, inf), &sd);
 }
 
 IOReturn sSetScanCacheClear(IONetworkInterface *inf, struct apple80211req *data)

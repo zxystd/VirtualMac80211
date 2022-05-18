@@ -415,35 +415,57 @@ struct apple80211_rate
 #define APPLE80211_MBUF_SET_WME_AC( m, ac ) mbuf_pkthdr_setrcvif( m, (ifnet_t)ac )
 #define APPLE80211_MBUF_WME_AC( m ) (int)mbuf_pkthdr_rcvif( m )
 
+// FIXME: seems that rates array starts at 0x24, immediately after
 struct apple80211_scan_result
 {
-    u_int32_t                    version; // 0x00 - 0x03
-    apple80211_channel    asr_channel; // 0x04 - 0x0f
-    
-    int16_t asr_unk; // 0x10 - 0x11
-    
-    int16_t                        asr_noise; // 0x12 - 0x13
-    int16_t asr_snr; // 0x14 - 0x15
-    int16_t                        asr_rssi; // 0x16 - 0x17
-    int16_t                    asr_beacon_int; // 0x18 - 0x19
-    
-    int16_t                    asr_cap;        // capabilities // 0x1a 0x1b
-    
-    u_int8_t                    asr_bssid[ APPLE80211_ADDR_LEN ]; // 0x1c 0x1d 0x1e 0x1f 0x20 0x21
-    u_int8_t                    asr_nrates; // 0x22
-    u_int8_t                    asr_nr_unk; // 0x23
-    u_int32_t                    asr_rates[ APPLE80211_MAX_RATES ]; // 0x24 - 0x5f
-    u_int8_t                    asr_ssid_len; // 0x60
-    u_int8_t                    asr_ssid[ APPLE80211_MAX_SSID_LEN ]; // 0x61 - 0x80
-    int16_t unk;
-    uint8_t unk2;
-    u_int32_t                    asr_age;    // (ms) non-zero for cached scan result // 0x84
-    
-    u_int16_t  unk3;
-    int16_t                    asr_ie_len;
-    uint32_t                   asr_unk3;
-    void*                       asr_ie_data;
-} __packed;
+    u_int32_t             version;        // 0x00 - 0x03
+    apple80211_channel    asr_channel;    // 0x04 - 0x0f
+
+    int16_t               asr_unk;        // 0x10 - 0x11
+
+    int16_t               asr_noise;      // 0x12 - 0x13
+    int16_t               asr_snr;        // 0x14 - 0x15
+    int16_t               asr_rssi;       // 0x16 - 0x17
+    int16_t               asr_beacon_int; // 0x18 - 0x19
+
+    int16_t               asr_cap;        // 0x1a - 0x1b (capabilities)
+
+    u_int8_t              asr_bssid[ APPLE80211_ADDR_LEN ]; // 0x1c 0x1d 0x1e 0x1f 0x20 0x21
+    u_int8_t              asr_nrates;     // 0x22
+    u_int8_t              asr_nr_unk;     // 0x23
+    u_int32_t             asr_rates[ APPLE80211_MAX_RATES ]; // 0x24 - 0x5f
+    u_int8_t              asr_ssid_len;   // 0x60
+    u_int8_t              asr_ssid[ APPLE80211_MAX_SSID_LEN ]; // 0x61 - 0x80
+    int16_t               unk;
+    uint8_t               unk2;
+    u_int32_t             asr_age;        // (ms) non-zero for cached scan result // 0x84
+
+    u_int16_t             unk3;
+    int16_t               asr_ie_len;
+#if __IO80211_TARGET < __MAC_12_0
+    uint32_t              asr_unk3;
+    void*                 asr_ie_data;
+#else
+    uint8_t               asr_ie_data[1024];
+#endif
+} __attribute__((packed));
+
+#if __IO80211_TARGET == __MAC_12_0
+static_assert(sizeof(struct apple80211_scan_result) == 1164, "bbb");
+
+static_assert(__offsetof(struct apple80211_scan_result, asr_channel) == 4, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_noise) == 0x12, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_rssi) == 0x16, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_beacon_int) == 0x18, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_cap) == 0x1A, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_bssid) == 0x1C, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_rates) == 0x24, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_ssid_len) == 0x60, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_ssid) == 0x61, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_age) == 0x84, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_ie_len) == 0x8A, "aaa");
+static_assert(__offsetof(struct apple80211_scan_result, asr_ie_data) == 0x8C, "aaa");
+#endif
 
 struct apple80211_network_data
 {

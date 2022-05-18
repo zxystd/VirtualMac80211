@@ -198,27 +198,28 @@ IOReturn VirtualMac80211::getCARD_CAPABILITIES(IO80211Interface *interface,
                                      struct apple80211_capability_data *cd)
 {
     cd->version = APPLE80211_VERSION;
-    cd->capabilities[0] = 0xeb;
-    cd->capabilities[1] = 0x7e;
-    cd->capabilities[2] |= 0xc0;
-    cd->capabilities[2] = 3;
-    cd->capabilities[2] |= 0x13;
-    cd->capabilities[2] |= 0x20;
-    cd->capabilities[2] |= 0x28;
-    cd->capabilities[2] |= 4;
+    cd->capabilities[0] = 0xEB;
+    cd->capabilities[1] = 0x7E;
+    cd->capabilities[2] = 0xFF;
     cd->capabilities[5] |= 8;
     cd->capabilities[3] |= 2;
     cd->capabilities[4] |= 1;
     cd->capabilities[6] |= 8;
-
-    cd->capabilities[3] |= 0x23;
-    cd->capabilities[2] |= 0x80;
+    cd->capabilities[8] |= 8;//dfs white list
+    cd->capabilities[3] |= 0x21;
+    cd->capabilities[4] |= 0x80;
     cd->capabilities[5] |= 4;
     cd->capabilities[2] |= 0xC0;
     cd->capabilities[6] |= 0x84;
     cd->capabilities[3] |= 8;
+    cd->capabilities[4] |= 0xAC;
     cd->capabilities[6] |= 1;
-    cd->capabilities[5] |= 0x80;
+    cd->capabilities[7] |= 4;
+    cd->capabilities[5] |= 0x80;//isCntryDefaultSupported
+    cd->capabilities[7] |= 0x80;
+    cd->capabilities[8] |= 0x40;
+    cd->capabilities[9] |= 8;
+    cd->capabilities[9] |= 0x28;
     return kIOReturnSuccess;
 }
 
@@ -446,10 +447,122 @@ setSCANCACHE_CLEAR(IO80211Interface *interface)
 IOReturn VirtualMac80211::
 setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd)
 {
+    VMLog("%s Type: %u BSS Type: %u PHY Mode: %u Dwell time: %u Rest time: %u Num channels: %u SSID: %s\n",
+          __FUNCTION__,
+          sd->scan_type,
+          sd->bss_type,
+          sd->phy_mode,
+          sd->dwell_time,
+          sd->rest_time,
+          sd->num_channels,
+          sd->ssid);
+    if (waitingForScanResult) {
+        return kIOReturnError;
+    }
     if (interface && scanSource) {
         scanSource->setTimeoutMS(200);
         scanSource->enable();
     }
+    waitingForScanResult = true;
+    return kIOReturnSuccess;
+}
+
+IOReturn VirtualMac80211::
+setSCAN_REQ_MULTIPLE(IO80211Interface *interface, struct apple80211_scan_multiple_data *sd)
+{
+    int i;
+    VMLog("%s Type: %u SSID Count: %u BSSID Count: %u PHY Mode: %u Dwell time: %u Rest time: %u Num channels: %u Unk: %u\n",
+          __FUNCTION__,
+          sd->scan_type,
+          sd->ssid_count,
+          sd->bssid_count,
+          sd->phy_mode,
+          sd->dwell_time,
+          sd->rest_time,
+          sd->num_channels,
+          sd->unk_2);
+    for (i = 0; i < sd->ssid_count; i++) {
+        VMLog("%s index=%d ssid=%s ssid_len=%d\n", __FUNCTION__, i, sd->ssids[i].ssid_bytes, sd->ssids[i].ssid_len);
+    }
+    if (waitingForScanResult) {
+        return kIOReturnError;
+    }
+    if (interface && scanSource) {
+        scanSource->setTimeoutMS(200);
+        scanSource->enable();
+    }
+    waitingForScanResult = true;
+    return kIOReturnSuccess;
+}
+
+const apple80211_channel fake_channel = {
+    .version = APPLE80211_VERSION,
+    .channel = 36,
+    .flags = 0 | APPLE80211_C_FLAG_2GHZ | APPLE80211_C_FLAG_40MHZ | APPLE80211_C_FLAG_ACTIVE | APPLE80211_C_FLAG_DFS
+};
+
+// This string contains information elements from beacon frame that I captured via Wireshark
+const char beacon_ie[] = "\x00\x0a\x55" \
+"\x50\x43\x35\x34\x32\x34\x32\x39\x37\x01\x08\x82\x84\x8b\x96\x0c" \
+"\x12\x18\x24\x03\x01\x01\x05\x04\x00\x01\x00\x00\x07\x06\x43\x5a" \
+"\x20\x01\x0d\x14\x2a\x01\x04\x32\x04\x30\x48\x60\x6c\x2d\x1a\xad" \
+"\x01\x1b\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
+"\x00\x00\x00\x04\x06\xe6\xe7\x0d\x00\x3d\x16\x01\x00\x17\x00\x00" \
+"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
+"\x00\x4a\x0e\x14\x00\x0a\x00\x2c\x01\xc8\x00\x14\x00\x05\x00\x19" \
+"\x00\x7f\x01\x01\xdd\x18\x00\x50\xf2\x02\x01\x01\x80\x00\x03\xa4" \
+"\x00\x00\x27\xa4\x00\x00\x42\x43\x5e\x00\x62\x32\x2f\x00\xdd\x09" \
+"\x00\x03\x7f\x01\x01\x00\x00\xff\x7f\x30\x18\x01\x00\x00\x0f\xac" \
+"\x02\x02\x00\x00\x0f\xac\x04\x00\x0f\xac\x02\x01\x00\x00\x0f\xac" \
+"\x02\x00\x00\xdd\x1a\x00\x50\xf2\x01\x01\x00\x00\x50\xf2\x02\x02" \
+"\x00\x00\x50\xf2\x04\x00\x50\xf2\x02\x01\x00\x00\x50\xf2\x02\xdd" \
+"\x22\x00\x50\xf2\x04\x10\x4a\x00\x01\x10\x10\x44\x00\x01\x02\x10" \
+"\x57\x00\x01\x01\x10\x3c\x00\x01\x01\x10\x49\x00\x06\x00\x37\x2a" \
+"\x00\x01\x20";
+
+IOReturn VirtualMac80211::
+getSCAN_RESULT(IO80211Interface *interface,
+                                           struct apple80211_scan_result **sr) {
+    
+    struct apple80211_scan_result* result =
+        (struct apple80211_scan_result*)IOMalloc(sizeof(struct apple80211_scan_result));
+    
+    if (!waitingForScanResult) {
+        return 0xe0820446;
+    }
+    
+    bzero(result, sizeof(*result));
+    result->version = APPLE80211_VERSION;
+    
+    result->asr_channel = fake_channel;
+    
+    result->asr_noise = -101;
+//    result->asr_snr = 60;
+    result->asr_rssi = -73;
+    result->asr_beacon_int = 100;
+    
+    result->asr_cap = 0x411;
+    
+    result->asr_age = 0;
+    
+    memcpy(result->asr_bssid, fake_bssid, sizeof(fake_bssid));
+    
+    result->asr_nrates = 1;
+    result->asr_rates[0] = 54;
+    
+    strncpy((char*)result->asr_ssid, fake_ssid, sizeof(result->asr_ssid));
+    result->asr_ssid_len = strlen(fake_ssid);
+    
+    result->asr_ie_len = 246;
+#if __IO80211_TARGET < __MAC_12_0
+    result->asr_ie_data = IOMalloc(result->asr_ie_len);
+#endif
+    memcpy(result->asr_ie_data, beacon_ie, result->asr_ie_len);
+
+    *sr = result;
+    
+    waitingForScanResult = false;
+    
     return kIOReturnSuccess;
 }
 

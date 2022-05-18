@@ -207,9 +207,9 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
         case 8://bssid
             ret = sGetBSSID(this, req);
             break;
-//        case 10://scan result
-//
-//            break;
+        case 10://scan result
+            ret = sGetScanResult(this, req);
+            break;
         case 11://card capa
             ret = sGetCardCapa(this, req);
             break;
@@ -285,14 +285,22 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
         case 0:
             
             break;
+//        case 4://setPowerSave
+//            break;
         case 9: //scan req
             ret = sSetScanRequest(this, req);
             break;
         case 18://power
             ret = sSetPOWER(this, req);
             break;
+        case 85://setScanRequestMultiple
+            ret = sSetScanRequestMultiple(this, req);
+            break;
         case 89://setScanCacheClear
             ret = sSetScanCacheClear(this, req);
+            break;
+        case 93://setVirtualInterfaceCreate
+            ret = kIOReturnError;
             break;
         case 215://roam profile
             ret = kIOReturnSuccess;

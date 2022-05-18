@@ -57,10 +57,14 @@ IOReturn sGetHWSupportedChannels(IONetworkInterface *inf, struct apple80211req *
 
 IOReturn sGetVersion(IONetworkInterface *inf, struct apple80211req *data);
 
+IOReturn sGetScanResult(IONetworkInterface *inf, struct apple80211req *data);
+
 
 IOReturn sSetPOWER(IONetworkInterface *inf, struct apple80211req *data);
 
 IOReturn sSetScanRequest(IONetworkInterface *inf, struct apple80211req *data);
+
+IOReturn sSetScanRequestMultiple(IONetworkInterface *inf, struct apple80211req *data);
 
 IOReturn sSetScanCacheClear(IONetworkInterface *inf, struct apple80211req *data);
 

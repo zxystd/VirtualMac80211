@@ -195,16 +195,16 @@ struct apple80211_scan_data
 {
     u_int32_t                    version;
     u_int32_t                    bss_type;                            // apple80211_apmode
-    struct ether_addr            bssid;                                // target BSSID
+    struct ether_addr            bssid;                               // target BSSID
     u_int32_t                    ssid_len;                            // length of the SSID
-    u_int8_t                    ssid[APPLE80211_MAX_SSID_LEN];
-    u_int32_t                    scan_type;                            // apple80211_scan_type
+    u_int8_t                     ssid[APPLE80211_MAX_SSID_LEN];       // direct scan ssid or AirDrop scan ssid like "Air-xxxx"
+    u_int32_t                    scan_type;                           // apple80211_scan_type
     u_int32_t                    phy_mode;                            // apple80211_phymode vector
-    u_int16_t                    dwell_time;                            // time to spend on each channel (ms)
-    u_int32_t                    rest_time;                            // time between scanning each channel (ms)
+    u_int16_t                    dwell_time;                          // time to spend on each channel (ms)
+    u_int32_t                    rest_time;                           // time between scanning each channel (ms)
     u_int32_t                    num_channels;                        // 0 if not passing in channels
-    struct apple80211_channel    channels[APPLE80211_MAX_CHANNELS];    // channel list
-} __packed;
+    struct apple80211_channel    channels[APPLE80211_MAX_CHANNELS];   // channel list
+};
 
 struct apple80211_scan_multiple_data
 {
@@ -221,7 +221,7 @@ struct apple80211_scan_multiple_data
     uint32_t num_channels;
     struct apple80211_channel channels[128];
     uint16_t unk_2;
-} __packed;
+};
 
 struct apple80211_apmode_data
 {
