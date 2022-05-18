@@ -141,7 +141,7 @@ IOReturn VirtualMac80211::getHardwareAddress(IOEthernetAddress *addrP) {
 
 UInt32 VirtualMac80211::outputPacket(mbuf_t m, void *param)
 {
-    IOLog("%s len=%d\n", __FUNCTION__, mbuf_pkthdr_len(m));
+//    IOLog("%s len=%d\n", __FUNCTION__, mbuf_pkthdr_len(m));
     freePacket(m);
     return kIOReturnOutputSuccess;
 }

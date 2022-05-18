@@ -136,7 +136,7 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
 {
     int ret;
     uint32_t index = req->req_type - 1;
-    IOLog("%s %d\n", __FUNCTION__, index);
+//    IOLog("%s %d\n", __FUNCTION__, index);
     if (index > 0x160) {
         return 102;
     }
@@ -232,7 +232,7 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
 {
     int ret;
     uint32_t index = req->req_type - 1;
-    IOLog("%s %d\n", __FUNCTION__, index);
+//    IOLog("%s %d\n", __FUNCTION__, index);
     if (index > 0x160) {
         return 102;
     }
