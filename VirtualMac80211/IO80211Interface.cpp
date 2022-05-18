@@ -9,7 +9,7 @@ OSDefineMetaClassAndStructors( IO80211Interface, IOEthernetInterface )
 
 bool IO80211Interface::init(IONetworkController *controller)
 {
-    IOLog("%s\n", __FUNCTION__);
+    VMLog("%s\n", __FUNCTION__);
     if ( super::init(controller) == false )
         return false;
     setInterfaceSubType(3);
@@ -18,7 +18,7 @@ bool IO80211Interface::init(IONetworkController *controller)
 
 void IO80211Interface::free()
 {
-    IOLog("%s\n", __FUNCTION__);
+    VMLog("%s\n", __FUNCTION__);
     super::free();
 }
 
@@ -27,7 +27,7 @@ SInt32 IO80211Interface::performCommand( IONetworkController * controller,
                                            void *                arg0,
                                            void *                arg1 )
 {
-//    IOLog("%s cmd=%lu, arg0=%p, arg1=%p\n", __FUNCTION__, cmd, arg0, arg1);
+//    VMLog("%s cmd=%lu, arg0=%p, arg1=%p\n", __FUNCTION__, cmd, arg0, arg1);
     uint64_t v7;
     
     if ( controller == NULL ) return EINVAL;
@@ -79,7 +79,7 @@ UInt64 IO80211Interface::IO80211InterfaceUserSpaceToKernelApple80211Request(void
     uint8_t *a1 = (uint8_t *)arg;
     uint8_t *req_ptr = (uint8_t*)req;
     if (a1 == NULL) {
-        IOLog("%s a1==NULL\n", __FUNCTION__);
+        VMLog("%s a1==NULL\n", __FUNCTION__);
         return 0;
     }
     *(uint64_t*)(req_ptr + 8) = *((uint64_t*)((uint8_t*)a1 + 8));
@@ -94,7 +94,7 @@ UInt64 IO80211Interface::IO80211InterfaceUserSpaceToKernelApple80211Request(void
         req->req_data = (void *)*((uint64_t*)((uint8_t*)a1 + 0x20));
         req->req_flag = 8;
     }
-//    IOLog("%s %s req_len=%d req_val=%d req_type=%d req_flag=%d\n", __FUNCTION__, req->req_if_name, req->req_len, req->req_val, req->req_type, req->req_flag);
+//    VMLog("%s %s req_len=%d req_val=%d req_type=%d req_flag=%d\n", __FUNCTION__, req->req_if_name, req->req_len, req->req_val, req->req_type, req->req_flag);
     return (UInt64)req->req_data;
 }
 
@@ -104,7 +104,7 @@ int IO80211Interface::performGatedCommand(void * target,
                                              void * arg3_0,
                                              void * arg4_1)
 {
-//    IOLog("%s\n", __FUNCTION__);
+//    VMLog("%s\n", __FUNCTION__);
     apple80211req req;
     UInt64 method;
     IO80211Interface *that = (IO80211Interface *)target;
@@ -124,7 +124,7 @@ int IO80211Interface::performGatedCommand(void * target,
 
 int IO80211Interface::apple80211_ioctl(IO80211Interface *netif, UInt64 method, apple80211req *a6)
 {
-//    IOLog("%s\n", __FUNCTION__);
+//    VMLog("%s\n", __FUNCTION__);
     if (method == IOCTL_GET) {
         return apple80211_ioctl_get(netif, a6);
     } else {
@@ -136,7 +136,7 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
 {
     int ret;
     uint32_t index = req->req_type - 1;
-//    IOLog("%s %d\n", __FUNCTION__, index);
+//    VMLog("%s %d\n", __FUNCTION__, index);
     if (index > 0x160) {
         return 102;
     }
@@ -222,7 +222,7 @@ int IO80211Interface::apple80211_ioctl_get(IO80211Interface *netif, apple80211re
             break;
             
         default:
-            IOLog("%s unhandle ioctl index=%d\n", __FUNCTION__, index);
+            VMLog("%s unhandle ioctl index=%d\n", __FUNCTION__, index);
             break;
     }
     return ret;
@@ -232,7 +232,7 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
 {
     int ret;
     uint32_t index = req->req_type - 1;
-//    IOLog("%s %d\n", __FUNCTION__, index);
+//    VMLog("%s %d\n", __FUNCTION__, index);
     if (index > 0x160) {
         return 102;
     }
@@ -252,7 +252,7 @@ int IO80211Interface::apple80211_ioctl_set(IO80211Interface *netif, apple80211re
             break;
             
         default:
-            IOLog("%s unhandle ioctl index=%d\n", __FUNCTION__, index);
+            VMLog("%s unhandle ioctl index=%d\n", __FUNCTION__, index);
             break;
     }
     return ret;

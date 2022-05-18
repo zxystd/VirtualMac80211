@@ -6,25 +6,25 @@
 OSDefineMetaClassAndStructors(VirtualMac80211, IO80211Controller)
 
 bool VirtualMac80211::init(OSDictionary *properties) {
-    IOLog("Driver init()");
+    VMLog("Driver init()");
     return super::init(properties);
 }
 
 void VirtualMac80211::free() {
-    IOLog("Driver free()");
+    VMLog("Driver free()");
     super::free();
 }
 
 IOService* VirtualMac80211::probe(IOService* provider, SInt32 *score) {
-    IOLog("Driver probe");
+    VMLog("Driver probe");
     super::probe(provider, score);
     return this;
 }
 
 bool VirtualMac80211::start(IOService *provider) {
-    IOLog("Driver start");
+    VMLog("Driver start");
     if (!super::start(provider)) {
-        IOLog("Super start call failed!");
+        VMLog("Super start call failed!");
         releaseAll();
         return false;
     }
@@ -35,7 +35,7 @@ bool VirtualMac80211::start(IOService *provider) {
         return false;
     }
     if (!attachInterface((IONetworkInterface **)&fNetIf)) {
-        IOLog("attachInterface failed!");
+        VMLog("attachInterface failed!");
         releaseAll();
         return false;
     }
@@ -44,7 +44,7 @@ bool VirtualMac80211::start(IOService *provider) {
 }
 
 void VirtualMac80211::stop(IOService *provider) {
-    IOLog("Driver stop");
+    VMLog("Driver stop");
     super::stop(provider);
     detachInterface(fNetIf);
     fNetIf->release();
@@ -56,7 +56,7 @@ bool VirtualMac80211::createMediumTables(const IONetworkMedium **primary)
     
     OSDictionary *mediumDict = OSDictionary::withCapacity(1);
     if (mediumDict == NULL) {
-        IOLog("Cannot allocate OSDictionary\n");
+        VMLog("Cannot allocate OSDictionary\n");
         return false;
     }
     
@@ -69,7 +69,7 @@ bool VirtualMac80211::createMediumTables(const IONetworkMedium **primary)
     
     bool result = publishMediumDictionary(mediumDict);
     if (!result) {
-        IOLog("Cannot publish medium dictionary!\n");
+        VMLog("Cannot publish medium dictionary!\n");
     }
 
     mediumDict->release();
@@ -84,21 +84,21 @@ bool VirtualMac80211::setupUserClient()
 
 void VirtualMac80211::releaseAll()
 {
-    IOLog("%s\n", __FUNCTION__);
+    VMLog("%s\n", __FUNCTION__);
 }
 
 bool VirtualMac80211::configureInterface(IONetworkInterface *netif) {
     IONetworkData *nd;
     
-    IOLog("%s\n", __FUNCTION__);
+    VMLog("%s\n", __FUNCTION__);
     if (super::configureInterface(netif) == false) {
-        IOLog("super failed\n");
+        VMLog("super failed\n");
         return false;
     }
     
     nd = netif->getNetworkData(kIONetworkStatsKey);
     if (!nd || !(fpNetStats = (IONetworkStats *)nd->getBuffer())) {
-        IOLog("network statistics buffer unavailable?\n");
+        VMLog("network statistics buffer unavailable?\n");
         return false;
     }
     
@@ -141,7 +141,7 @@ IOReturn VirtualMac80211::getHardwareAddress(IOEthernetAddress *addrP) {
 
 UInt32 VirtualMac80211::outputPacket(mbuf_t m, void *param)
 {
-//    IOLog("%s len=%d\n", __FUNCTION__, mbuf_pkthdr_len(m));
+//    VMLog("%s len=%d\n", __FUNCTION__, mbuf_pkthdr_len(m));
     freePacket(m);
     return kIOReturnOutputSuccess;
 }

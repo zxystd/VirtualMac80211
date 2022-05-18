@@ -6,6 +6,12 @@
 #include "IOEthernetInterface.h"
 #include "apple/apple80211_ioctl.h"
 
+#define VMLog(fmt, x...)\
+do\
+{\
+IOLog("%s: " fmt, "VM80211", ##x);\
+}while(0)
+
 typedef int apple80211_postMessage_tlv_types;
 
 class IO80211Interface : public IOEthernetInterface
