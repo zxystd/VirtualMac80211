@@ -17,7 +17,12 @@ void VirtualMac80211::free() {
 
 IOService* VirtualMac80211::probe(IOService* provider, SInt32 *score) {
     VMLog("Driver probe");
+    if (vmAirportInstance != NULL) {
+        VMLog("Can't support 2 instances - bye...\n");
+        return NULL;
+    }
     super::probe(provider, score);
+    vmAirportInstance = this;
     return this;
 }
 

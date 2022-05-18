@@ -6,6 +6,8 @@
 #include <IOKit/network/IOOutputQueue.h>
 #include <IOKit/IOCommandGate.h>
 
+void *vmAirportInstance;
+
 class VirtualMac80211 : public IO80211Controller {
     OSDeclareDefaultStructors(VirtualMac80211)
     
