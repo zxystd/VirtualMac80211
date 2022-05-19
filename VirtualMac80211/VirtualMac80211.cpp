@@ -35,6 +35,7 @@ bool VirtualMac80211::start(IOService *provider) {
         releaseAll();
         return false;
     }
+    scanResult = NULL;
     const IONetworkMedium *primaryMedium;
     if (!createMediumTables(&primaryMedium) ||
         !setCurrentMedium(primaryMedium)) {
@@ -61,6 +62,10 @@ void VirtualMac80211::fakeScanDone(OSObject *owner, IOTimerEventSource *sender)
 void VirtualMac80211::stop(IOService *provider) {
     VMLog("Driver stop");
     super::stop(provider);
+    if (scanResult) {
+        IOFree(scanResult, sizeof(struct apple80211_scan_result));
+        scanResult = NULL;
+    }
     detachInterface(fNetIf);
     fNetIf->release();
 }
@@ -441,6 +446,10 @@ IOReturn VirtualMac80211::
 setSCANCACHE_CLEAR(IO80211Interface *interface)
 {
     VMLog("%s\n", __FUNCTION__);
+    if (scanResult) {
+        IOFree(scanResult, sizeof(struct apple80211_scan_result));
+        scanResult = NULL;
+    }
     return kIOReturnSuccess;
 }
 
@@ -459,6 +468,7 @@ setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd)
     if (waitingForScanResult) {
         return kIOReturnError;
     }
+    curState = APPLE80211_S_SCAN;
     if (interface && scanSource) {
         scanSource->setTimeoutMS(200);
         scanSource->enable();
@@ -497,7 +507,7 @@ setSCAN_REQ_MULTIPLE(IO80211Interface *interface, struct apple80211_scan_multipl
 
 const apple80211_channel fake_channel = {
     .version = APPLE80211_VERSION,
-    .channel = 36,
+    .channel = 1,
     .flags = 0 | APPLE80211_C_FLAG_2GHZ | APPLE80211_C_FLAG_40MHZ | APPLE80211_C_FLAG_ACTIVE | APPLE80211_C_FLAG_DFS
 };
 
@@ -524,40 +534,43 @@ IOReturn VirtualMac80211::
 getSCAN_RESULT(IO80211Interface *interface,
                                            struct apple80211_scan_result **sr) {
     
-    struct apple80211_scan_result* result =
-        (struct apple80211_scan_result*)IOMalloc(sizeof(struct apple80211_scan_result));
-    
     if (!waitingForScanResult) {
         return 0xe0820446;
     }
     
-    bzero(result, sizeof(*result));
-    result->version = APPLE80211_VERSION;
+    struct apple80211_scan_result* result;
     
-    result->asr_channel = fake_channel;
-    
-    result->asr_noise = -101;
-//    result->asr_snr = 60;
-    result->asr_rssi = -73;
-    result->asr_beacon_int = 100;
-    
-    result->asr_cap = 0x411;
-    
-    result->asr_age = 0;
-    
-    memcpy(result->asr_bssid, fake_bssid, sizeof(fake_bssid));
-    
-    result->asr_nrates = 1;
-    result->asr_rates[0] = 54;
-    
-    strncpy((char*)result->asr_ssid, fake_ssid, sizeof(result->asr_ssid));
-    result->asr_ssid_len = strlen(fake_ssid);
-    
-    result->asr_ie_len = 246;
-#if __IO80211_TARGET < __MAC_12_0
-    result->asr_ie_data = IOMalloc(result->asr_ie_len);
-#endif
-    memcpy(result->asr_ie_data, beacon_ie, result->asr_ie_len);
+    if (scanResult) {
+        result = scanResult;
+    } else {
+        result = (struct apple80211_scan_result*)IOMalloc(sizeof(struct apple80211_scan_result));
+        bzero(result, sizeof(*result));
+        result->version = APPLE80211_VERSION;
+        
+        result->asr_channel = fake_channel;
+        
+        result->asr_noise = -101;
+        //    result->asr_snr = 60;
+        result->asr_rssi = -73;
+        result->asr_beacon_int = 100;
+        
+        result->asr_cap = 0x411;
+        
+        result->asr_age = 0;
+        
+        memcpy(result->asr_bssid, fake_bssid, sizeof(fake_bssid));
+        
+        result->asr_nrates = 1;
+        result->asr_rates[0] = 54;
+        
+        strncpy((char*)result->asr_ssid, fake_ssid, sizeof(result->asr_ssid));
+        result->asr_ssid_len = strlen(fake_ssid);
+        
+        result->asr_ie_len = 246;
+        result->asr_ie_data = IOMalloc(result->asr_ie_len);
+        memcpy(result->asr_ie_data, beacon_ie, result->asr_ie_len);
+        scanResult = result;
+    }
 
     *sr = result;
     

@@ -296,14 +296,68 @@ IOReturn sGetScanResult(IONetworkInterface *inf, struct apple80211req *data)
 {
     IOReturn ret;
     struct apple80211_scan_result *sr;
+    struct apple80211_scan_result *result;
     IO80211Controller *ctl = OSDynamicCast(IO80211Controller, inf->getController());
     if (!ctl) {
         return kIOReturnError;
     }
-    ret = ctl->getSCAN_RESULT(OSDynamicCast(IO80211Interface, inf), &sr);
-    if (sr == NULL) {
-        return kIOReturnError;
+    if (data->req_flag == 8) {
+        if (data->req_len != sizeof(struct apple80211_scan_result)) {
+            VMLog("%s Invalid req len %lld\n", __FUNCTION__, data->req_len);
+            return kIOReturnBadArgument;
+        }
+    } else if (data->req_len != 144) {
+        VMLog("%s Invalid req len %lld\n", __FUNCTION__, data->req_len);
+        return kIOReturnBadArgument;
     }
+    ret = ctl->getSCAN_RESULT(OSDynamicCast(IO80211Interface, inf), &sr);
+    if (sr == NULL || ret != kIOReturnSuccess) {
+        return ret;
+    }
+    result = (struct apple80211_scan_result *)IOMalloc(sizeof(struct apple80211_scan_result));
+    if (data->req_flag == 8) {
+        if (copyin((user_addr_t)data->req_data, result, sizeof(struct apple80211_scan_result))) {
+            VMLog("%s %d copy fail\n", __FUNCTION__, __LINE__);
+            ret = kIOReturnIOError;
+            goto freeNow;
+        }
+        result->version = sr->version;
+        result->asr_channel.version = sr->asr_channel.version;
+        result->asr_channel.channel = sr->asr_channel.channel;
+        result->asr_channel.flags = sr->asr_channel.flags;
+        result->asr_age = sr->asr_age;
+        result->asr_beacon_int = sr->asr_beacon_int;
+        result->asr_cap = sr->asr_cap;
+        memcpy(result->asr_bssid, sr->asr_bssid, sizeof(sr->asr_bssid));
+        result->asr_ssid_len = sr->asr_ssid_len;
+        memcpy(result->asr_ssid, sr->asr_ssid, sizeof(sr->asr_ssid));
+        result->asr_nrates = sr->asr_nrates;
+        memcpy(result->asr_rates, sr->asr_rates, sizeof(sr->asr_rates));
+        result->asr_snr = sr->asr_snr;
+    } else {
+        if (copyin((user_addr_t)data->req_data, result, 144)) {
+            VMLog("%s %d copy fail\n", __FUNCTION__, __LINE__);
+            ret = kIOReturnIOError;
+            goto freeNow;
+        }
+        result->version = sr->version;
+        result->asr_channel.version = sr->asr_channel.version;
+        result->asr_channel.channel = sr->asr_channel.channel;
+        result->asr_channel.flags = sr->asr_channel.flags;
+        result->asr_age = sr->asr_age;
+        result->asr_beacon_int = sr->asr_beacon_int;
+        result->asr_cap = sr->asr_cap;
+        memcpy(result->asr_bssid, sr->asr_bssid, sizeof(sr->asr_bssid));
+        result->asr_ssid_len = sr->asr_ssid_len;
+        memcpy(result->asr_ssid, sr->asr_ssid, sizeof(sr->asr_ssid));
+        result->asr_nrates = sr->asr_nrates;
+        memcpy(result->asr_rates, sr->asr_rates, sizeof(sr->asr_rates));
+        result->asr_snr = sr->asr_snr;
+        VMLog("%s %d Return result %d\n", __FUNCTION__, __LINE__, data->req_flag);
+    }
+    copyout(result, (user_addr_t)data->req_data, data->req_len);
+freeNow:
+    IOFree(result, sizeof(struct apple80211_scan_result));
     return ret;
 }
 

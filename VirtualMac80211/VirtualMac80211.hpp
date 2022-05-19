@@ -95,6 +95,7 @@ public:
 protected:
     IO80211Interface *fNetIf;
     IONetworkStats *fpNetStats;
+    struct apple80211_scan_result *scanResult;
     
 private:
     IOTimerEventSource *scanSource;
