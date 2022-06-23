@@ -146,6 +146,7 @@ IOReturn VirtualMac80211::disable(IONetworkInterface *netif)
 {
     super::disable(netif);
     scanSource->disable();
+    setLinkStatus(kIONetworkLinkValid);
     return kIOReturnSuccess;
 }
 
@@ -153,6 +154,7 @@ IOReturn VirtualMac80211::enable(IONetworkInterface *netif)
 {
     super::enable(netif);
     scanSource->enable();
+    setLinkStatus(kIONetworkLinkValid);
     return kIOReturnSuccess;
 }
 

@@ -147,6 +147,35 @@ public:
                                          struct apple80211_version_data *hv) {
         return kIOReturnError;
     }
+    
+    virtual IO80211Interface *getNetworkInterface() 
+    {
+        return _netIf;
+    }
+    
+    virtual bool attachInterface(IONetworkInterface ** interface, bool doRegister = true) override 
+    {
+        if (IOEthernetController::attachInterface(interface, doRegister)) {
+            _netIf = OSDynamicCast(IO80211Interface, *interface);
+            return true;
+        }
+        return false;
+    };
+    
+    virtual void detachInterface(IONetworkInterface * interface, bool sync = false) override 
+    {
+        IOEthernetController::detachInterface(interface, sync);
+        _netIf = NULL;
+    }
+    
+    virtual bool setLinkStatus(
+                               UInt32                  status,
+                               const IONetworkMedium * activeMedium = 0,
+                               UInt64                  speed        = 0,
+                               OSData *                data         = 0) override;
+    
+private:
+    IO80211Interface *_netIf;
 };
 
 #endif /* IO80211Controller_hpp */

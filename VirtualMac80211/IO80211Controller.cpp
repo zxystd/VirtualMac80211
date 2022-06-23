@@ -456,3 +456,20 @@ IOReturn sSetScanCacheClear(IONetworkInterface *inf, struct apple80211req *data)
     }
     return ctl->setSCANCACHE_CLEAR(OSDynamicCast(IO80211Interface, inf));
 }
+
+bool IO80211Controller::
+setLinkStatus(UInt32 status, const IONetworkMedium * activeMedium, UInt64 speed, OSData *data)
+{
+    bool ret = IOEthernetController::setLinkStatus(status, activeMedium, speed, data);
+    if (getNetworkInterface()) {
+        if (status & kIONetworkLinkActive) {
+            VMLog("AirPort: Link Up on %s.\n", getNetworkInterface()->getBSDName());
+        } else if (!(status & kIONetworkLinkNoNetworkChange)) {
+            VMLog("AirPort: Link Down on %s.\n", getNetworkInterface()->getBSDName());
+        }
+        getNetworkInterface()->postMessage(APPLE80211_M_LINK_CHANGED);
+        getNetworkInterface()->postMessage(APPLE80211_M_SSID_CHANGED);
+        getNetworkInterface()->postMessage(APPLE80211_M_BSSID_CHANGED);
+    }
+    return ret;
+}
