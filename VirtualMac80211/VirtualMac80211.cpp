@@ -63,6 +63,11 @@ void VirtualMac80211::stop(IOService *provider) {
     VMLog("Driver stop");
     super::stop(provider);
     if (scanResult) {
+        if (scanResult->asr_ie_len && scanResult->asr_ie_data) {
+            IOFree(scanResult->asr_ie_data, scanResult->asr_ie_len);
+            scanResult->asr_ie_data = NULL;
+            scanResult->asr_ie_len = 0;
+        }
         IOFree(scanResult, sizeof(struct apple80211_scan_result));
         scanResult = NULL;
     }
@@ -447,6 +452,11 @@ setSCANCACHE_CLEAR(IO80211Interface *interface)
 {
     VMLog("%s\n", __FUNCTION__);
     if (scanResult) {
+        if (scanResult->asr_ie_len && scanResult->asr_ie_data) {
+            IOFree(scanResult->asr_ie_data, scanResult->asr_ie_len);
+            scanResult->asr_ie_data = NULL;
+            scanResult->asr_ie_len = 0;
+        }
         IOFree(scanResult, sizeof(struct apple80211_scan_result));
         scanResult = NULL;
     }
