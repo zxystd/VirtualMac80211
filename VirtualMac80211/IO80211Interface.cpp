@@ -150,7 +150,7 @@ int IO80211InterfacePostMessage(const char *bsdName, unsigned int code, void *da
     kmsg.kev_class = KEV_IEEE80211_CLASS;
     kmsg.kev_subclass = KEV_NETWORK_CLASS;
     kmsg.event_code = code;
-    kmsg.dv[0].data_length = 16;
+    kmsg.dv[0].data_length = IFNAMSIZ;
     kmsg.dv[0].data_ptr = (void *)bsdName;
     if (len) {
         kmsg.dv[1].data_ptr = data;
@@ -163,7 +163,7 @@ int IO80211InterfacePostMessage(const char *bsdName, unsigned int code, void *da
 const char *IO80211Interface::getBSDName()
 {
     if (bsdName[0] == 0) {
-        snprintf(bsdName, 16, "%s%u", ifnet_name(getIfnet()), ifnet_unit(getIfnet()));
+        snprintf(bsdName, IFNAMSIZ, "%s%u", ifnet_name(getIfnet()), ifnet_unit(getIfnet()));
     }
     return bsdName;
 }
