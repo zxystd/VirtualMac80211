@@ -23,6 +23,8 @@ public:
     
     void postMessage(unsigned int code, void *data = NULL, uint32_t dataLen = 0);
     
+    const char *getBSDName();
+    
 protected:
     
     virtual void free() APPLE_KEXT_OVERRIDE;
@@ -42,10 +44,8 @@ protected:
     
     int apple80211_ioctl_get(IO80211Interface *netif, apple80211req *a6);
     
-    const char *getBSDName();
-    
 private:
-    char bsdName[16];
+    char bsdName[IFNAMSIZ];
 };
 
 #endif /* ItlNetworkInterface_hpp */
