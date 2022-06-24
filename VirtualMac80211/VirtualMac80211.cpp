@@ -333,7 +333,7 @@ IOReturn VirtualMac80211::getAUTH_TYPE(
     return kIOReturnError;
 }
 
-const char *fake_ssid = "大脸猫来啦";
+const char *fake_ssid = "UPC5424297";
 
 IOReturn VirtualMac80211::getSSID(IO80211Interface *interface,
                         struct apple80211_ssid_data *sd)
@@ -360,7 +360,7 @@ IOReturn VirtualMac80211::getCOUNTRY_CODE(IO80211Interface *interface,
                                 struct apple80211_country_code_data *cd)
 {
     cd->version = APPLE80211_VERSION;
-    strncpy((char*)cd->cc, "ZZ", sizeof(cd->cc));
+    strncpy((char*)cd->cc, "CN", sizeof(cd->cc));
     return kIOReturnSuccess;
 }
 
@@ -520,7 +520,7 @@ setSCAN_REQ_MULTIPLE(IO80211Interface *interface, struct apple80211_scan_multipl
 const apple80211_channel fake_channel = {
     .version = APPLE80211_VERSION,
     .channel = 1,
-    .flags = 0 | APPLE80211_C_FLAG_2GHZ | APPLE80211_C_FLAG_40MHZ | APPLE80211_C_FLAG_ACTIVE | APPLE80211_C_FLAG_DFS
+    .flags = APPLE80211_C_FLAG_2GHZ
 };
 
 // This string contains information elements from beacon frame that I captured via Wireshark
