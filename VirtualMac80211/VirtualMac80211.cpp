@@ -57,6 +57,7 @@ void VirtualMac80211::fakeScanDone(OSObject *owner, IOTimerEventSource *sender)
 {
     VirtualMac80211 *that = (VirtualMac80211 *)owner;
     that->fNetIf->postMessage(APPLE80211_M_SCAN_DONE);
+    that->fNetIf->postMessage(APPLE80211_M_SCAN_CACHE_UPDATED);
 }
 
 void VirtualMac80211::stop(IOService *provider) {
